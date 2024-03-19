@@ -1,0 +1,32 @@
+h1 {
+    color: red;
+    text-align: center;
+}
+
+div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem auto;
+}
+
+div:last-child {
+    width: 30%;
+    flex-direction: column;
+    padding: 1rem;
+    border: .1rem solid black;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: black;
+}

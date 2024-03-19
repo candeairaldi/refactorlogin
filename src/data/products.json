@@ -1,0 +1,64 @@
+[
+    {
+        "id": 1,
+        "title": "tostadas sin tacc",
+        "description": "saladas/dulces",
+        "code": "code1",
+        "price": 450,
+        "status": true,
+        "stock": 12,
+        "category": "alimentos",
+        "thumbnail": "Link de la foto"
+        
+    },
+    {
+        "title": "Tostadas de arroz",
+        "description": "Sabor jamón",
+        "code": "code2",
+        "price": 550,
+        "status": true,
+        "stock": 15,
+        "category": "alimentos",
+        "thumbnail": "Link de la foto"
+    },
+    {
+        "title": "Tostadas de mesa",
+        "description": "dulces/saladas",
+        "code": "code3",
+        "price": 490,
+        "status": true,
+        "stock": 19,
+        "category": "alimentos",
+        "thumbnails": "Link de la foto"
+    },
+    {
+        "title": "Tostadas de arroz",
+        "description": "Sabor queso",
+        "code": "code4",
+        "price": 550,
+        "status": true,
+        "stock": 25,
+        "category": "alimentos",
+        "thumbnails": "Link de la foto"
+    },
+    {
+        "title": "Galletitas dulces",
+        "description": "Con frutos secos",
+        "code": "code5",
+        "price": 650,
+        "status": true,
+        "stock": 4,
+        "category": "alimentos",
+        "thumbnails": "Link de la foto"
+    },
+    {
+        "title": "Galletitas dulces",
+        "description": "Con pasas",
+        "code": "code6",
+        "price": 650,
+        "status": true,
+        "stock": 0,
+        "category": "alimentos",
+        "thumbnails": "Link de la foto"
+    }
+]

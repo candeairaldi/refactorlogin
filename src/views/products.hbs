@@ -1,0 +1,56 @@
+<h1>Listado de productos</h1>
+
+<h2>Bienvenido {{user.first_name}} {{user.last_name}} ({{user.role}})</h2>
+
+<div>
+    <form action="/api/sessions/logout" method="POST">
+        <button type="submit">Logout</button>
+    </form>
+
+    <button id="view-cart" onclick="viewCart()">Ver carrito</button>
+
+    <button>
+        <a href="/profile">Ver perfil</a>
+    </button>
+</div>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Código</th>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Categoría</th>
+        <th>Status</th>
+        <th>Precio</th>
+    </tr>
+
+    {{#each products.docs}}
+    <tr>
+        <td>{{id}}</td>
+        <td>{{code}}</td>
+        <td>{{title}}</td>
+        <td>{{description}}</td>
+        <td>{{category}}</td>
+        <td>{{status}}</td>
+        <td>${{price}}</td>
+        <td>
+            <button id="add-to-cart" onclick="addProductToCart('{{id}}')">Agregar</button>
+        </td>
+    </tr>
+    {{/each}}
+</table>
+
+<div>
+    {{#if products.hasPrevPage}}
+        <a href={{products.prevLink}}> << </a>
+    {{/if}}
+
+    <p>{{products.page}} de {{products.totalPages}}</p>
+
+    {{#if products.hasNextPage}}
+        <a href={{products.nextLink}}> >> </a>
+    {{/if}}
+</div>
+
+<script src="/js/products.js"></script>
