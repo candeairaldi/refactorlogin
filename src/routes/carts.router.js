@@ -1,81 +1,95 @@
-import express from 'express';
-import { CartsManagerDB } from '../dao/carts.manager.DB.js';
+import express from "express";
+import CartManager from "../dao/cartManager.js";
 
 const router = express.Router();
+//crea una instancia del CartManager
+const cartManager = new CartManager();
 
-router.get('/:cid', async (req, res) => {
-    try {
-        const id = req.params.cid;
-        const cart = await CartsManagerDB.getInstance().getCartById(id);
-        res.json({ status: 'success', payload: cart });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+//Crear carrito
+router.post("/", (req, res) => {
+  //Llama el método addCart para crear el carrito
+  //si la promesa es exitosa manda el resultado
+  //sino manda un mensaje de error
+  cartManager
+    .addCart()
+    .then((cart) => res.send({ status: "success", payload: cart }))
+    .catch((error) => res.send({ status: "error", error: error }));
 });
 
-router.post('/', async (req, res) => {
-    try {
-        const cart = await CartsManagerDB.getInstance().createCart();
-        res.json({ status: 'success', payload: cart });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+//Obtener productos del carrito
+router.get("/:cid", (req, res) => {
+  //obtiene el id del carrito desde el params
+  const cid = req.params.cid;
+  //Llamda el método getCart para obtener los productos del carrito correspondiente
+  //si la promesa es exitosa manda el resultado
+  //sino manda un mensaje de error
+  cartManager
+    .getCart(cid)
+    .then((result) => res.send({ status: "success", payload: result }))
+    .catch((error) => res.send({ status: "error", error: error }));
 });
 
-router.post('/:cid/products/:pid', async (req, res) => {
-    try {
-        const cartId = req.params.cid;
-        const productId = req.params.pid;
-        const quantity = req.body.quantity ?? 1;
-        const cart = await CartsManagerDB.getInstance().addProduct(cartId, productId, quantity);
-        res.json({ status: 'success', payload: cart });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+//Añadir producto al carrito
+router.post("/:cid/product/:pid", (req, res) => {
+  //Obtiene el id del carrito y del producto desde el params
+  const cid = req.params.cid;
+  const pid = req.params.pid;
+  //Llama el método addProductCart para añadir el producto al carrito
+  //si la promesa es exitosa manda el resultado
+  //sino manda un mensaje de error
+  cartManager
+    .addProductToCart(cid, pid)
+    .then((result) => res.send({ status: "success", payload: result }))
+    .catch((error) => res.send({ status: "error", error: error }));
 });
 
-router.put('/:cid', async (req, res) => {
-    try {
-        const id = req.params.cid;
-        const products = req.body.products ?? [];
-        const cart = await CartsManagerDB.getInstance().updateCart(id, products);
-        res.json({ status: 'success', payload: cart });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+//Borrar un producto del carrito
+router.delete("/:cid/product/:pid", (req, res) => {
+  //Obtiene el id del carrito y del producto desde el params
+  const cid = req.params.cid;
+  const pid = req.params.pid;
+  cartManager
+    .deleteProductFromCart(cid, pid)
+    .then((result) => res.send({ status: "success", payload: result }))
+    .catch((error) => res.send({ status: "error", error: error }));
 });
 
-router.put('/:cid/products/:pid', async (req, res) => {
-    try {
-        const cartId = req.params.cid;
-        const productId = req.params.pid;
-        const quantity = req.body.quantity ?? 1;
-        const cart = await CartsManagerDB.getInstance().updateProductQuantity(cartId, productId, quantity);
-        res.json({ status: 'success', payload: cart });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+/**
+ * Actualizar carrito con un arreglo de productos
+ * el formato del arreglo debe ser [{id: id, quantity: n}]
+ */
+router.put("/:cid", (req, res) => {
+  const cid = req.params.cid;
+  const products = req.body;
+  cartManager
+    .updateCart(cid, products)
+    .then((result) => res.send({ status: "success", payload: result }))
+    .catch((error) => res.send({ status: "error", error: error }));
 });
 
-router.delete('/:cid', async (req, res) => {
-    try {
-        const id = req.params.cid;
-        const cart = await CartsManagerDB.getInstance().deleteCart(id);
-        res.json({ status: 'success', payload: cart });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+//Modificar cantidad del producto en el carrito
+router.put("/:cid/product/:pid", (req, res) => {
+  //Obtiene el id del carrito y del producto desde el params
+  const cid = req.params.cid;
+  const pid = req.params.pid;
+  //Obtiene el quantity desde el body
+  const quantity = req.body.quantity;
+  //Llama el método addProductCart para añadir el producto al carrito
+  //si la promesa es exitosa manda el resultado
+  //sino manda un mensaje de error
+  cartManager
+    .updateProductQuantity(cid, pid, quantity)
+    .then((result) => res.send({ status: "success", payload: result }))
+    .catch((error) => res.send({ status: "error", error: error }));
 });
 
-router.delete('/:cid/products/:pid', async (req, res) => {
-    try {
-        const cartId = req.params.cid;
-        const productId = req.params.pid;
-        const cart = await CartsManagerDB.getInstance().removeProduct(cartId, productId);
-        res.json({ status: 'success', payload: cart });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+router.delete("/:cid", (req, res) => {
+  //Obtiene el id del carrito desde el params
+  const cid = req.params.cid;
+  cartManager
+    .deleteAllProductsFromCart(cid)
+    .then((result) => res.send({ status: "success", payload: result }))
+    .catch((error) => res.send({ status: "error", error: error }));
 });
 
 export default router;

@@ -1,15 +1,18 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const usersCollection = 'users';
+/**
+ * Modelo para la coleccion de users
+ */
+const usersCollection = "users";
 
 const userSchema = new mongoose.Schema({
-    first_name: { type: String, required: true },
-    last_name: { type: String, required: true },
-    email: { type: String, unique: true, filter: true },
-    age: { type: Number, required: true },
-    password: { type: String, required: true }
+  name: String,
+  lastname: String,
+  email: String,
+  age: Number,
+  password: String,
 });
 
-const UserModel = mongoose.model(usersCollection, userSchema);
+const userModel = mongoose.model(usersCollection, userSchema);
 
-export default UserModel;
+export default userModel;
